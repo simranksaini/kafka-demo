@@ -1,0 +1,26 @@
+server:
+  port: 8083
+---
+spring.cloud.stream:
+  function:
+    definition: processor
+  bindings:
+    processor-in-0:
+      destination: order-created
+    processor-out-0:
+      destination: order-updated
+---
+service:
+  endpoints:
+    inventory: http://localhost:8081
+    payment: http://localhost:8082
+---
+spring:
+  application:
+    name: order-orchestration
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:8721/eureka/
